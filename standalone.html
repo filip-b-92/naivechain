@@ -16,6 +16,7 @@
             --success: #00ff88;
             --warning: #ffaa00;
             --danger: #ff4466;
+            --gold: #ffd700;
         }
 
         * {
@@ -34,7 +35,7 @@
         }
 
         .container {
-            max-width: 1600px;
+            max-width: 1800px;
             margin: 0 auto;
         }
 
@@ -60,7 +61,7 @@
 
         .main-grid {
             display: grid;
-            grid-template-columns: 300px 1fr;
+            grid-template-columns: 320px 1fr;
             gap: 20px;
             margin-bottom: 20px;
         }
@@ -74,30 +75,36 @@
         }
 
         .card h2 {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
             color: var(--accent-1);
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
+        .card h3 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: var(--text-dim);
+        }
+
         /* Settings */
         .setting {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .setting label {
             display: block;
             margin-bottom: 8px;
             color: var(--text-dim);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .slider-container {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
         }
 
         input[type="range"] {
@@ -111,9 +118,8 @@
 
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
             background: var(--accent-1);
             cursor: pointer;
@@ -121,8 +127,8 @@
         }
 
         input[type="range"]::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
             background: var(--accent-1);
             cursor: pointer;
@@ -131,20 +137,20 @@
         }
 
         .slider-value {
-            min-width: 60px;
+            min-width: 50px;
             text-align: right;
             font-weight: bold;
             color: var(--accent-1);
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         /* Buttons */
         button {
-            padding: 12px 24px;
+            padding: 10px 20px;
             border: none;
             border-radius: 10px;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
@@ -182,14 +188,19 @@
             box-shadow: 0 4px 15px rgba(255, 68, 102, 0.5);
         }
 
+        .btn-warning {
+            background: var(--warning);
+            color: var(--bg-dark);
+        }
+
         .btn-small {
             padding: 6px 12px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
         .btn-icon {
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             padding: 0;
             display: flex;
             align-items: center;
@@ -199,8 +210,8 @@
 
         .action-buttons {
             display: flex;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 8px;
+            margin-top: 15px;
         }
 
         .action-buttons button {
@@ -210,16 +221,17 @@
         /* Peers */
         .peers-container {
             display: grid;
-            gap: 15px;
+            gap: 12px;
+            max-height: 400px;
+            overflow-y: auto;
         }
 
         .peer {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
-            padding: 15px;
+            padding: 12px;
             border: 2px solid transparent;
             transition: all 0.3s ease;
-            position: relative;
         }
 
         .peer.active {
@@ -231,19 +243,39 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .peer-name {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: bold;
             color: var(--accent-1);
         }
 
-        .peer-stats {
-            font-size: 0.85rem;
+        .peer-balance {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+
+        .peer-wallet {
+            font-family: monospace;
+            font-size: 0.7rem;
             color: var(--text-dim);
-            margin-bottom: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .peer-stats {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 8px;
         }
 
         .mining-indicator {
@@ -266,18 +298,11 @@
         }
 
         /* Blockchain Viz */
-        .blockchain-area {
-            background: var(--bg-card);
-            border-radius: 15px;
-            padding: 20px;
-            min-height: 400px;
-        }
-
         .blockchain-scroll {
             display: flex;
-            gap: 20px;
+            gap: 15px;
             overflow-x: auto;
-            padding: 20px 0;
+            padding: 15px 0;
         }
 
         .blockchain-scroll::-webkit-scrollbar {
@@ -295,11 +320,11 @@
         }
 
         .block {
-            min-width: 180px;
+            min-width: 200px;
             background: linear-gradient(135deg, rgba(123, 47, 247, 0.3), rgba(0, 242, 255, 0.3));
             border: 2px solid var(--accent-1);
             border-radius: 12px;
-            padding: 15px;
+            padding: 12px;
             position: relative;
             animation: blockSlide 0.5s ease;
         }
@@ -323,7 +348,7 @@
         .block::after {
             content: '→';
             position: absolute;
-            right: -20px;
+            right: -18px;
             top: 50%;
             transform: translateY(-50%);
             font-size: 1.5rem;
@@ -335,41 +360,66 @@
         }
 
         .block-number {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: bold;
             color: var(--accent-1);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .block-info {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: var(--text-dim);
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .block-hash {
             font-family: monospace;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             background: rgba(0, 0, 0, 0.3);
-            padding: 5px;
-            border-radius: 5px;
+            padding: 4px;
+            border-radius: 4px;
             word-break: break-all;
-            margin-top: 8px;
+            margin-top: 6px;
+        }
+
+        .block-hash.pow {
+            color: var(--success);
+            font-weight: bold;
         }
 
         .block-miner {
-            margin-top: 8px;
-            padding: 4px 8px;
+            margin-top: 6px;
+            padding: 3px 6px;
             background: rgba(0, 242, 255, 0.2);
-            border-radius: 5px;
-            font-size: 0.8rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
             display: inline-block;
+        }
+
+        .block-reward {
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        .block-txs {
+            margin-top: 6px;
+            padding: 6px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            font-size: 0.7rem;
+        }
+
+        .tx-item {
+            margin-bottom: 3px;
+            padding: 3px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
         }
 
         /* Network Canvas */
         .network-canvas {
             width: 100%;
-            height: 300px;
+            height: 250px;
             background: rgba(0, 0, 0, 0.2);
             border-radius: 12px;
         }
@@ -377,21 +427,21 @@
         /* Stats */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
         }
 
         .stat {
             background: rgba(255, 255, 255, 0.05);
-            padding: 15px;
+            padding: 12px;
             border-radius: 10px;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .stat-value {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: bold;
             background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
             -webkit-background-clip: text;
@@ -401,24 +451,57 @@
 
         .stat-label {
             color: var(--text-dim);
+            font-size: 0.75rem;
+            margin-top: 4px;
+        }
+
+        /* Transactions */
+        .tx-form {
+            display: grid;
+            gap: 10px;
+        }
+
+        .tx-form select,
+        .tx-form input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text);
             font-size: 0.9rem;
-            margin-top: 5px;
+        }
+
+        .tx-form select:focus,
+        .tx-form input:focus {
+            outline: none;
+            border-color: var(--accent-1);
+        }
+
+        .pending-txs {
+            max-height: 150px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+
+        .pending-tx {
+            padding: 8px;
+            margin-bottom: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            border-left: 3px solid var(--warning);
+            font-size: 0.8rem;
         }
 
         /* Activity Feed */
         .activity-feed {
-            max-height: 200px;
+            max-height: 180px;
             overflow-y: auto;
-            margin-top: 15px;
+            margin-top: 10px;
         }
 
         .activity-feed::-webkit-scrollbar {
             width: 6px;
-        }
-
-        .activity-feed::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
         }
 
         .activity-feed::-webkit-scrollbar-thumb {
@@ -427,12 +510,12 @@
         }
 
         .activity-item {
-            padding: 10px;
-            margin-bottom: 8px;
+            padding: 8px;
+            margin-bottom: 6px;
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
+            border-radius: 6px;
             border-left: 3px solid var(--accent-1);
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             animation: fadeIn 0.3s ease;
         }
 
@@ -445,38 +528,21 @@
             border-left-color: var(--success);
         }
 
-        .activity-item.sync {
-            border-left-color: var(--accent-2);
+        .activity-item.tx {
+            border-left-color: var(--warning);
         }
 
         .activity-time {
             color: var(--text-dim);
-            font-size: 0.75rem;
-            margin-right: 8px;
+            font-size: 0.7rem;
+            margin-right: 6px;
         }
 
         .hidden {
             display: none !important;
         }
 
-        input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: var(--text);
-            font-size: 1rem;
-            margin-bottom: 10px;
-        }
-
-        input[type="text"]:focus {
-            outline: none;
-            border-color: var(--accent-1);
-            box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
-        }
-
-        @media (max-width: 1024px) {
+        @media (max-width: 1200px) {
             .main-grid {
                 grid-template-columns: 1fr;
             }
@@ -487,7 +553,7 @@
     <div class="container">
         <header>
             <h1>⛓️ Blockchain Playground</h1>
-            <p class="subtitle">Interactive blockchain simulator - No setup required!</p>
+            <p class="subtitle">Complete cryptocurrency with wallets, transactions & proof-of-work!</p>
         </header>
 
         <div class="main-grid">
@@ -497,26 +563,34 @@
                     <h2>⚙️ Settings</h2>
 
                     <div class="setting">
-                        <label>Mining Speed</label>
+                        <label>Mining Difficulty (zeros)</label>
                         <div class="slider-container">
-                            <input type="range" id="miningSpeed" min="1" max="10" value="5" step="1">
-                            <span class="slider-value" id="miningSpeedValue">5</span>
+                            <input type="range" id="difficulty" min="1" max="4" value="2" step="1">
+                            <span class="slider-value" id="difficultyValue">2</span>
+                        </div>
+                    </div>
+
+                    <div class="setting">
+                        <label>Mining Reward</label>
+                        <div class="slider-container">
+                            <input type="range" id="miningReward" min="10" max="100" value="50" step="10">
+                            <span class="slider-value" id="miningRewardValue">50</span>
                         </div>
                     </div>
 
                     <div class="setting">
                         <label>Network Delay (ms)</label>
                         <div class="slider-container">
-                            <input type="range" id="networkDelay" min="0" max="2000" value="500" step="100">
-                            <span class="slider-value" id="networkDelayValue">500</span>
+                            <input type="range" id="networkDelay" min="0" max="1000" value="300" step="100">
+                            <span class="slider-value" id="networkDelayValue">300</span>
                         </div>
                     </div>
 
                     <div class="setting">
                         <label>Auto-Mine Interval (sec)</label>
                         <div class="slider-container">
-                            <input type="range" id="autoInterval" min="1" max="10" value="3" step="1">
-                            <span class="slider-value" id="autoIntervalValue">3</span>
+                            <input type="range" id="autoInterval" min="2" max="10" value="5" step="1">
+                            <span class="slider-value" id="autoIntervalValue">5</span>
                         </div>
                     </div>
 
@@ -528,9 +602,9 @@
                     </div>
                 </div>
 
-                <div class="card" style="margin-top: 20px;">
+                <div class="card" style="margin-top: 15px;">
                     <h2>👥 Peers</h2>
-                    <button class="btn-primary" onclick="addPeer()" style="width: 100%; margin-bottom: 15px;">
+                    <button class="btn-primary" onclick="addPeer()" style="width: 100%; margin-bottom: 12px;">
                         + Add Peer
                     </button>
                     <div class="peers-container" id="peersContainer">
@@ -538,7 +612,7 @@
                     </div>
                 </div>
 
-                <div class="card" style="margin-top: 20px;">
+                <div class="card" style="margin-top: 15px;">
                     <h2>📊 Stats</h2>
                     <div class="stats-grid">
                         <div class="stat">
@@ -548,6 +622,14 @@
                         <div class="stat">
                             <div class="stat-value" id="peerCount">0</div>
                             <div class="stat-label">Peers</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="txCount">0</div>
+                            <div class="stat-label">Transactions</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" id="pendingCount">0</div>
+                            <div class="stat-label">Pending</div>
                         </div>
                     </div>
                 </div>
@@ -564,27 +646,44 @@
                 </div>
 
                 <!-- Network Visualization -->
-                <div class="card" style="margin-top: 20px;">
+                <div class="card" style="margin-top: 15px;">
                     <h2>🌐 Network</h2>
                     <canvas id="networkCanvas" class="network-canvas"></canvas>
                 </div>
 
-                <!-- Manual Mining -->
-                <div class="card" style="margin-top: 20px;">
-                    <h2>⛏️ Manual Mining</h2>
-                    <input type="text" id="blockData" placeholder="Enter block data..." onkeypress="if(event.key==='Enter') mineManualBlock()">
-                    <button class="btn-primary" onclick="mineManualBlock()" style="width: 100%;">
-                        ⛏️ Mine Block
-                    </button>
-                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                    <!-- Create Transaction -->
+                    <div class="card">
+                        <h2>💸 Create Transaction</h2>
+                        <div class="tx-form">
+                            <select id="txFrom">
+                                <option value="">Select sender...</option>
+                            </select>
+                            <select id="txTo">
+                                <option value="">Select recipient...</option>
+                            </select>
+                            <input type="number" id="txAmount" placeholder="Amount" min="1" step="1">
+                            <button class="btn-warning" onclick="createTransaction()" style="width: 100%;">
+                                💰 Send Coins
+                            </button>
+                        </div>
 
-                <!-- Activity Feed -->
-                <div class="card" style="margin-top: 20px;">
-                    <h2>📋 Activity</h2>
-                    <div class="activity-feed" id="activityFeed">
-                        <div class="activity-item">
-                            <span class="activity-time">[00:00:00]</span>
-                            Playground initialized!
+                        <h3 style="margin-top: 15px;">Pending Transactions</h3>
+                        <div class="pending-txs" id="pendingTxs">
+                            <div style="text-align: center; color: var(--text-dim); padding: 15px; font-size: 0.8rem;">
+                                No pending transactions
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Activity Feed -->
+                    <div class="card">
+                        <h2>📋 Activity</h2>
+                        <div class="activity-feed" id="activityFeed">
+                            <div class="activity-item">
+                                <span class="activity-time">[00:00:00]</span>
+                                Playground initialized!
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -594,15 +693,36 @@
 
     <script>
         // ============================================
-        // BLOCKCHAIN CORE
+        // TRANSACTION & WALLET SYSTEM
+        // ============================================
+
+        class Transaction {
+            constructor(from, to, amount) {
+                this.from = from;
+                this.to = to;
+                this.amount = amount;
+                this.timestamp = Date.now();
+            }
+        }
+
+        class Wallet {
+            constructor(address) {
+                this.address = address;
+                this.balance = 0;
+            }
+        }
+
+        // ============================================
+        // BLOCKCHAIN WITH POW
         // ============================================
 
         class Block {
-            constructor(index, previousHash, timestamp, data, hash, minedBy = null) {
+            constructor(index, previousHash, timestamp, transactions, nonce, hash, minedBy = null) {
                 this.index = index;
                 this.previousHash = previousHash;
                 this.timestamp = timestamp;
-                this.data = data;
+                this.transactions = transactions;
+                this.nonce = nonce;
                 this.hash = hash;
                 this.minedBy = minedBy;
             }
@@ -611,26 +731,47 @@
         class Blockchain {
             constructor() {
                 this.chain = [this.createGenesisBlock()];
+                this.difficulty = 2;
+                this.miningReward = 50;
             }
 
             createGenesisBlock() {
-                return new Block(0, "0", Date.now(), "Genesis Block", "0000genesis", "System");
+                return new Block(0, "0", Date.now(), [], 0, "0000genesis", "System");
             }
 
-            async calculateHash(index, previousHash, timestamp, data) {
-                const text = `${index}${previousHash}${timestamp}${data}`;
+            async calculateHash(index, previousHash, timestamp, transactions, nonce) {
+                const txData = JSON.stringify(transactions);
+                const text = `${index}${previousHash}${timestamp}${txData}${nonce}`;
                 const msgBuffer = new TextEncoder().encode(text);
                 const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
                 const hashArray = Array.from(new Uint8Array(hashBuffer));
                 return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
             }
 
-            async generateBlock(data, minedBy) {
+            async mineBlock(transactions, minedBy) {
                 const previousBlock = this.chain[this.chain.length - 1];
                 const index = previousBlock.index + 1;
                 const timestamp = Date.now();
-                const hash = await this.calculateHash(index, previousBlock.hash, timestamp, data);
-                return new Block(index, previousBlock.hash, timestamp, data, hash, minedBy);
+                let nonce = 0;
+                let hash = '';
+
+                const target = '0'.repeat(this.difficulty);
+
+                // Proof of Work
+                while (true) {
+                    hash = await this.calculateHash(index, previousBlock.hash, timestamp, transactions, nonce);
+                    if (hash.startsWith(target)) {
+                        break;
+                    }
+                    nonce++;
+
+                    // Show mining progress every 100 attempts
+                    if (nonce % 100 === 0) {
+                        await sleep(0); // Allow UI updates
+                    }
+                }
+
+                return new Block(index, previousBlock.hash, timestamp, transactions, nonce, hash, minedBy);
             }
 
             addBlock(block) {
@@ -646,44 +787,46 @@
             constructor(id, name) {
                 this.id = id;
                 this.name = name;
-                this.hashPower = 5; // 1-10 scale
-                this.blockchain = new Blockchain();
+                this.wallet = new Wallet(`addr_${id}_${Math.random().toString(36).substr(2, 8)}`);
+                this.hashPower = 5;
                 this.isMining = false;
                 this.blocksMinedCount = 0;
             }
 
-            async mine(data) {
+            async mine(transactions, blockchain) {
                 this.isMining = true;
                 updatePeerUI();
+                drawNetwork();
 
-                // Simulate mining time based on hash power (higher = faster)
-                const miningTime = (11 - this.hashPower) * 200;
-                await sleep(miningTime);
+                const startTime = Date.now();
 
-                const block = await this.blockchain.generateBlock(data, this.name);
-                this.blockchain.addBlock(block);
+                // Add mining reward transaction
+                const rewardTx = new Transaction('SYSTEM', this.wallet.address, blockchain.miningReward);
+                const allTxs = [rewardTx, ...transactions];
+
+                const block = await blockchain.mineBlock(allTxs, this.name);
+
+                const miningTime = ((Date.now() - startTime) / 1000).toFixed(1);
+
+                blockchain.addBlock(block);
                 this.blocksMinedCount++;
                 this.isMining = false;
 
-                addActivity(`${this.name} mined block #${block.index}`, 'mining');
+                // Update balances
+                allTxs.forEach(tx => {
+                    if (tx.from !== 'SYSTEM') {
+                        const fromPeer = peers.find(p => p.wallet.address === tx.from);
+                        if (fromPeer) fromPeer.wallet.balance -= tx.amount;
+                    }
+                    const toPeer = peers.find(p => p.wallet.address === tx.to);
+                    if (toPeer) toPeer.wallet.balance += tx.amount;
+                });
 
-                // Broadcast to network
-                await broadcastBlock(block, this.id);
+                addActivity(`${this.name} mined block #${block.index} (${block.nonce} attempts, ${miningTime}s) +${blockchain.miningReward} coins`, 'mining');
 
                 updatePeerUI();
+                drawNetwork();
                 return block;
-            }
-
-            async receiveBlock(block) {
-                // Simulate network delay
-                const delay = parseInt(document.getElementById('networkDelay').value);
-                await sleep(delay);
-
-                // Only add if we don't have it
-                if (block.index >= this.blockchain.chain.length) {
-                    this.blockchain.addBlock(block);
-                    addActivity(`${this.name} received block #${block.index}`, 'sync');
-                }
             }
         }
 
@@ -694,8 +837,10 @@
         let peers = [];
         let peerIdCounter = 0;
         let globalBlockchain = new Blockchain();
+        let pendingTransactions = [];
         let autoMining = false;
         let autoMiningInterval = null;
+        let totalTxCount = 0;
 
         // ============================================
         // PEER MANAGEMENT
@@ -705,20 +850,26 @@
             const id = peerIdCounter++;
             const name = `Peer ${id + 1}`;
             const peer = new Peer(id, name);
+
+            // Give initial balance
+            peer.wallet.balance = 100;
+
             peers.push(peer);
 
             updatePeerUI();
+            updateTransactionSelects();
             updateStats();
             drawNetwork();
-            addActivity(`${name} joined the network`, 'sync');
+            addActivity(`${name} joined (${peer.wallet.address}, 100 coins)`, 'tx');
         }
 
         function removePeer(id) {
             peers = peers.filter(p => p.id !== id);
             updatePeerUI();
+            updateTransactionSelects();
             updateStats();
             drawNetwork();
-            addActivity(`Peer removed from network`, 'sync');
+            addActivity(`Peer removed from network`, 'tx');
         }
 
         function updatePeerHashPower(id, value) {
@@ -726,6 +877,7 @@
             if (peer) {
                 peer.hashPower = parseInt(value);
                 updatePeerUI();
+                drawNetwork();
             }
         }
 
@@ -733,7 +885,7 @@
             const container = document.getElementById('peersContainer');
 
             if (peers.length === 0) {
-                container.innerHTML = '<div style="text-align: center; color: var(--text-dim); padding: 20px;">No peers yet. Click "Add Peer" to start!</div>';
+                container.innerHTML = '<div style="text-align: center; color: var(--text-dim); padding: 15px; font-size: 0.8rem;">No peers yet!</div>';
                 return;
             }
 
@@ -746,12 +898,16 @@
                         <div class="peer-name">${peer.name}</div>
                         <button class="btn-danger btn-icon btn-small" onclick="removePeer(${peer.id})">×</button>
                     </div>
+                    <div class="peer-balance">
+                        💰 <span>${peer.wallet.balance}</span> coins
+                    </div>
+                    <div class="peer-wallet">${truncate(peer.wallet.address, 20)}</div>
                     <div class="peer-stats">
                         <span class="mining-indicator ${peer.isMining ? 'active' : ''}"></span>
-                        ${peer.isMining ? 'Mining...' : 'Idle'} | Blocks: ${peer.blocksMinedCount}
+                        ${peer.isMining ? 'Mining...' : 'Idle'} | Mined: ${peer.blocksMinedCount}
                     </div>
                     <div class="setting">
-                        <label>Hash Power: <span id="hashPower${peer.id}">${peer.hashPower}</span></label>
+                        <label style="font-size: 0.75rem;">Hash Power: <span id="hashPower${peer.id}">${peer.hashPower}</span></label>
                         <input type="range" min="1" max="10" value="${peer.hashPower}" step="1"
                                oninput="updatePeerHashPower(${peer.id}, this.value); document.getElementById('hashPower${peer.id}').textContent = this.value"
                                style="width: 100%;">
@@ -762,33 +918,89 @@
         }
 
         // ============================================
+        // TRANSACTION SYSTEM
+        // ============================================
+
+        function updateTransactionSelects() {
+            const fromSelect = document.getElementById('txFrom');
+            const toSelect = document.getElementById('txTo');
+
+            fromSelect.innerHTML = '<option value="">Select sender...</option>';
+            toSelect.innerHTML = '<option value="">Select recipient...</option>';
+
+            peers.forEach(peer => {
+                fromSelect.innerHTML += `<option value="${peer.wallet.address}">${peer.name} (${peer.wallet.balance} coins)</option>`;
+                toSelect.innerHTML += `<option value="${peer.wallet.address}">${peer.name}</option>`;
+            });
+        }
+
+        function createTransaction() {
+            const from = document.getElementById('txFrom').value;
+            const to = document.getElementById('txTo').value;
+            const amount = parseInt(document.getElementById('txAmount').value);
+
+            if (!from || !to || !amount) {
+                addActivity('Invalid transaction', 'tx');
+                return;
+            }
+
+            if (from === to) {
+                addActivity('Cannot send to yourself', 'tx');
+                return;
+            }
+
+            const fromPeer = peers.find(p => p.wallet.address === from);
+            if (!fromPeer || fromPeer.wallet.balance < amount) {
+                addActivity('Insufficient balance', 'tx');
+                return;
+            }
+
+            const tx = new Transaction(from, to, amount);
+            pendingTransactions.push(tx);
+            totalTxCount++;
+
+            const fromName = fromPeer.name;
+            const toName = peers.find(p => p.wallet.address === to).name;
+
+            addActivity(`Transaction: ${fromName} → ${toName} (${amount} coins)`, 'tx');
+
+            document.getElementById('txAmount').value = '';
+
+            updatePendingTxsUI();
+            updateStats();
+        }
+
+        function updatePendingTxsUI() {
+            const container = document.getElementById('pendingTxs');
+
+            if (pendingTransactions.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: var(--text-dim); padding: 15px; font-size: 0.8rem;">No pending transactions</div>';
+                return;
+            }
+
+            container.innerHTML = '';
+            pendingTransactions.forEach(tx => {
+                const fromPeer = peers.find(p => p.wallet.address === tx.from);
+                const toPeer = peers.find(p => p.wallet.address === tx.to);
+
+                const txEl = document.createElement('div');
+                txEl.className = 'pending-tx';
+                txEl.innerHTML = `${fromPeer?.name || 'Unknown'} → ${toPeer?.name || 'Unknown'}<br>${tx.amount} coins`;
+                container.appendChild(txEl);
+            });
+        }
+
+        // ============================================
         // MINING
         // ============================================
 
-        async function mineManualBlock() {
-            const dataInput = document.getElementById('blockData');
-            const data = dataInput.value.trim() || 'Manual block';
-
+        async function mineNextBlock() {
             if (peers.length === 0) {
                 addActivity('Add peers first!', 'mining');
                 return;
             }
 
-            // Random peer mines
-            const randomPeer = peers[Math.floor(Math.random() * peers.length)];
-            await randomPeer.mine(data);
-
-            // Update global blockchain
-            syncGlobalBlockchain();
-
-            dataInput.value = '';
-            updateUI();
-        }
-
-        async function autoMine() {
-            if (peers.length === 0) return;
-
-            // Weighted random selection based on hash power
+            // Select miner based on hash power
             const totalHashPower = peers.reduce((sum, p) => sum + p.hashPower, 0);
             let random = Math.random() * totalHashPower;
             let selectedPeer = peers[0];
@@ -801,14 +1013,17 @@
                 }
             }
 
-            const data = `Auto-block ${Date.now()}`;
-            await selectedPeer.mine(data);
+            // Take pending transactions for this block
+            const txsForBlock = [...pendingTransactions];
+            pendingTransactions = [];
+            updatePendingTxsUI();
 
-            syncGlobalBlockchain();
+            await selectedPeer.mine(txsForBlock, globalBlockchain);
+
             updateUI();
         }
 
-        function toggleAutoMine() {
+        async function toggleAutoMine() {
             autoMining = !autoMining;
             const btn = document.getElementById('autoMineBtn');
             const text = document.getElementById('autoMineText');
@@ -818,7 +1033,7 @@
                 text.textContent = '⏹️ Stop';
 
                 const interval = parseInt(document.getElementById('autoInterval').value) * 1000;
-                autoMiningInterval = setInterval(autoMine, interval);
+                autoMiningInterval = setInterval(mineNextBlock, interval);
 
                 addActivity('Auto-mining started', 'mining');
             } else {
@@ -834,38 +1049,13 @@
         }
 
         // ============================================
-        // BLOCKCHAIN SYNC
-        // ============================================
-
-        async function broadcastBlock(block, sourcePeerId) {
-            // Broadcast to all other peers
-            for (const peer of peers) {
-                if (peer.id !== sourcePeerId) {
-                    await peer.receiveBlock(block);
-                }
-            }
-        }
-
-        function syncGlobalBlockchain() {
-            // Find longest chain among all peers
-            let longestChain = [];
-            for (const peer of peers) {
-                if (peer.blockchain.chain.length > longestChain.length) {
-                    longestChain = peer.blockchain.chain;
-                }
-            }
-
-            globalBlockchain.chain = longestChain.length > 0 ? longestChain : globalBlockchain.chain;
-        }
-
-        // ============================================
         // UI UPDATES
         // ============================================
 
         function updateUI() {
             updateBlockchainViz();
             updateStats();
-            drawNetwork();
+            updatePeerUI();
         }
 
         function updateBlockchainViz() {
@@ -877,12 +1067,34 @@
                 blockEl.className = `block ${index === 0 ? 'genesis' : ''}`;
 
                 const time = new Date(block.timestamp).toLocaleTimeString();
+                const txCount = block.transactions.length;
+
+                let txsHTML = '';
+                if (txCount > 0) {
+                    const displayTxs = block.transactions.slice(0, 3);
+                    txsHTML = '<div class="block-txs">';
+                    displayTxs.forEach(tx => {
+                        if (tx.from === 'SYSTEM') {
+                            txsHTML += `<div class="tx-item block-reward">⛏️ Reward: +${tx.amount}</div>`;
+                        } else {
+                            const fromPeer = peers.find(p => p.wallet.address === tx.from);
+                            const toPeer = peers.find(p => p.wallet.address === tx.to);
+                            txsHTML += `<div class="tx-item">${fromPeer?.name || 'Unknown'} → ${toPeer?.name || 'Unknown'}: ${tx.amount}</div>`;
+                        }
+                    });
+                    if (txCount > 3) {
+                        txsHTML += `<div class="tx-item">+${txCount - 3} more...</div>`;
+                    }
+                    txsHTML += '</div>';
+                }
 
                 blockEl.innerHTML = `
                     <div class="block-number">#${block.index}</div>
                     <div class="block-info">⏰ ${time}</div>
-                    <div class="block-info">📦 ${truncate(block.data, 20)}</div>
-                    <div class="block-hash">${truncate(block.hash, 12)}</div>
+                    <div class="block-info">📦 ${txCount} transaction${txCount !== 1 ? 's' : ''}</div>
+                    ${txsHTML}
+                    <div class="block-hash pow">${truncate(block.hash, 16)}</div>
+                    <div class="block-info">Nonce: ${block.nonce}</div>
                     ${block.minedBy ? `<div class="block-miner">⛏️ ${block.minedBy}</div>` : ''}
                 `;
                 container.appendChild(blockEl);
@@ -894,6 +1106,8 @@
         function updateStats() {
             document.getElementById('blockCount').textContent = globalBlockchain.chain.length;
             document.getElementById('peerCount').textContent = peers.length;
+            document.getElementById('txCount').textContent = totalTxCount;
+            document.getElementById('pendingCount').textContent = pendingTransactions.length;
         }
 
         function drawNetwork() {
@@ -907,7 +1121,7 @@
 
             if (peers.length === 0) {
                 ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-                ctx.font = '16px Arial';
+                ctx.font = '14px Arial';
                 ctx.textAlign = 'center';
                 ctx.fillText('Add peers to see network', canvas.width / 2, canvas.height / 2);
                 return;
@@ -929,7 +1143,7 @@
                 };
             });
 
-            // Draw connections (mesh network)
+            // Draw connections
             peers.forEach((peer1, i) => {
                 peers.forEach((peer2, j) => {
                     if (i < j) {
@@ -946,12 +1160,12 @@
             // Draw nodes
             positions.forEach((pos, i) => {
                 const peer = peers[i];
-                const nodeRadius = 30 + (peer.hashPower * 2);
+                const nodeRadius = 25 + (peer.hashPower * 1.5);
 
                 // Glow if mining
                 if (peer.isMining) {
                     ctx.beginPath();
-                    ctx.arc(pos.x, pos.y, nodeRadius + 10, 0, Math.PI * 2);
+                    ctx.arc(pos.x, pos.y, nodeRadius + 8, 0, Math.PI * 2);
                     ctx.fillStyle = 'rgba(0, 255, 136, 0.2)';
                     ctx.fill();
                 }
@@ -967,15 +1181,14 @@
 
                 // Label
                 ctx.fillStyle = '#0a0e27';
-                ctx.font = 'bold 14px Arial';
+                ctx.font = 'bold 12px Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.fillText(peer.name.replace('Peer ', 'P'), pos.x, pos.y);
+                ctx.fillText(peer.name.replace('Peer ', 'P'), pos.x, pos.y - 5);
 
-                // Hash power indicator
-                ctx.fillStyle = '#ffffff';
+                // Balance
                 ctx.font = '10px Arial';
-                ctx.fillText(`⚡${peer.hashPower}`, pos.x, pos.y + nodeRadius + 15);
+                ctx.fillText(`${peer.wallet.balance}💰`, pos.x, pos.y + 8);
             });
         }
 
@@ -989,7 +1202,6 @@
 
             feed.insertBefore(item, feed.firstChild);
 
-            // Limit to 50 items
             while (feed.children.length > 50) {
                 feed.removeChild(feed.lastChild);
             }
@@ -1002,16 +1214,17 @@
         function resetPlayground() {
             if (!confirm('Reset everything?')) return;
 
-            // Stop auto mining
             if (autoMining) toggleAutoMine();
 
-            // Reset state
             peers = [];
             peerIdCounter = 0;
             globalBlockchain = new Blockchain();
+            pendingTransactions = [];
+            totalTxCount = 0;
 
-            // Reset UI
             updatePeerUI();
+            updateTransactionSelects();
+            updatePendingTxsUI();
             updateUI();
 
             document.getElementById('activityFeed').innerHTML = `
@@ -1031,6 +1244,7 @@
         }
 
         function truncate(str, len) {
+            if (!str) return '';
             return str.length > len ? str.substring(0, len) + '...' : str;
         }
 
@@ -1038,9 +1252,14 @@
         // INITIALIZATION
         // ============================================
 
-        // Update slider values
-        document.getElementById('miningSpeed').oninput = function() {
-            document.getElementById('miningSpeedValue').textContent = this.value;
+        document.getElementById('difficulty').oninput = function() {
+            document.getElementById('difficultyValue').textContent = this.value;
+            globalBlockchain.difficulty = parseInt(this.value);
+        };
+
+        document.getElementById('miningReward').oninput = function() {
+            document.getElementById('miningRewardValue').textContent = this.value;
+            globalBlockchain.miningReward = parseInt(this.value);
         };
 
         document.getElementById('networkDelay').oninput = function() {
@@ -1050,20 +1269,18 @@
         document.getElementById('autoInterval').oninput = function() {
             document.getElementById('autoIntervalValue').textContent = this.value;
 
-            // Update interval if auto-mining is active
             if (autoMining) {
                 clearInterval(autoMiningInterval);
                 const interval = parseInt(this.value) * 1000;
-                autoMiningInterval = setInterval(autoMine, interval);
+                autoMiningInterval = setInterval(mineNextBlock, interval);
             }
         };
 
-        // Initial setup
         window.onload = () => {
             updateUI();
-            addActivity('Welcome to Blockchain Playground! Add peers to get started.', 'sync');
+            addActivity('Complete cryptocurrency playground ready!', 'mining');
+            addActivity('Add peers, create transactions, and start mining!', 'tx');
 
-            // Redraw network on resize
             window.onresize = drawNetwork;
         };
     </script>
