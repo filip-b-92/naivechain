@@ -38,6 +38,28 @@ The project now includes a comprehensive visualization dashboard that makes lear
 ### Naivecoin
 For a more extensive tutorial about blockchains, you can check the project [Naivecoin](https://lhartikk.github.io/). It is based on Naivechain and implements for instance Proof-of-work, transactions and wallets.
 
+### 🚀 Standalone Browser Version (No Installation Required!)
+Want to try Naivechain with **ZERO setup**? We've got you covered!
+
+**Simply open `standalone.html` in your browser** - no Node.js, no npm, no server needed!
+
+Features:
+- ✅ Complete blockchain implementation in pure JavaScript
+- ✅ Multi-node simulation in a single page
+- ✅ All visualization features included
+- ✅ SHA-256 hashing using native Web Crypto API
+- ✅ Works offline - perfect for classrooms and presentations
+- ✅ Just 43KB single file
+
+[📖 Read the full standalone documentation](STANDALONE.md)
+
+**Quick try:**
+1. Download `standalone.html`
+2. Open in any modern browser
+3. Start mining blocks immediately!
+
+---
+
 ### Quick start with Visualization Dashboard 🎨
 The easiest way to explore Naivechain is through the interactive visualization dashboard:
 ```
