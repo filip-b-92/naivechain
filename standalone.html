@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naivechain - Standalone Blockchain Simulator</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --dark-bg: #1a1a2e;
+            --card-bg: #16213e;
+            --text-primary: #ffffff;
+            --text-secondary: #a8b2d1;
+            --border-color: #0f3460;
+            --accent-color: #00d9ff;
+            --block-color: #533483;
+            --genesis-color: #27ae60;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #0f0f1e 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: var(--card-bg);
+            padding: 20px 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Node Tabs */
+        .node-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .node-tab {
+            padding: 12px 24px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .node-tab:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .node-tab.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .node-badge {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .add-node-btn {
+            padding: 12px 24px;
+            background: var(--secondary-color);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .add-node-btn:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+        }
+
+        /* Main Layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 20px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h2 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            color: var(--accent-color);
+        }
+
+        .card h3 {
+            margin: 15px 0 10px 0;
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Controls */
+        .mode-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .mode-btn {
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            background: transparent;
+            color: var(--text-secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .mode-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .mode-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .control-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-success {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #e67e22;
+            transform: translateY(-2px);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .auto-settings {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .auto-settings label {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Statistics */
+        .stat-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: var(--dark-bg);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        /* Blockchain Visualization */
+        .blockchain-container {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px;
+            background: var(--dark-bg);
+            border-radius: 8px;
+            min-height: 250px;
+        }
+
+        .blockchain-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .blockchain-container::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+            border-radius: 10px;
+        }
+
+        .blockchain-container::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+
+        .block {
+            min-width: 200px;
+            background: var(--block-color);
+            border-radius: 10px;
+            padding: 15px;
+            position: relative;
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 4px 12px rgba(0, 217, 255, 0.3);
+            animation: blockAppear 0.5s ease;
+        }
+
+        @keyframes blockAppear {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .block.genesis {
+            background: var(--genesis-color);
+            border-color: #27ae60;
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.4);
+        }
+
+        .block.new-block {
+            animation: newBlockPulse 1s ease;
+        }
+
+        @keyframes newBlockPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); box-shadow: 0 8px 20px rgba(0, 217, 255, 0.6); }
+        }
+
+        .block::after {
+            content: '→';
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: var(--accent-color);
+        }
+
+        .block:last-child::after {
+            content: '';
+        }
+
+        .block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .block-index {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .block-time {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .block-field {
+            margin-bottom: 8px;
+        }
+
+        .block-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .block-value {
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            word-break: break-all;
+            font-family: 'Courier New', monospace;
+        }
+
+        .block-hash {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+
+        /* Network Visualization */
+        .network-viz {
+            min-height: 400px;
+            background: var(--dark-bg);
+            border-radius: 8px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .network-canvas {
+            width: 100%;
+            height: 400px;
+            border-radius: 8px;
+        }
+
+        /* Hashing Visualization */
+        .hashing-viz {
+            background: var(--dark-bg);
+            border-radius: 8px;
+            padding: 30px;
+            min-height: 200px;
+        }
+
+        .hash-process {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .hash-input-section,
+        .hash-output-section {
+            flex: 1;
+        }
+
+        .hash-inputs {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+        }
+
+        .hash-field {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+
+        .hash-field label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .hash-field span {
+            color: var(--text-primary);
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            word-break: break-all;
+        }
+
+        .hash-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .arrow-animation {
+            font-size: 3rem;
+            color: var(--accent-color);
+            animation: arrowPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes arrowPulse {
+            0%, 100% { transform: translateX(0); opacity: 0.6; }
+            50% { transform: translateX(10px); opacity: 1; }
+        }
+
+        .hash-function {
+            background: var(--primary-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .hash-output {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid var(--accent-color);
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hash-output code {
+            color: var(--accent-color);
+            font-size: 0.9rem;
+            word-break: break-all;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Activity Log */
+        .activity-log {
+            background: var(--dark-bg);
+            border-radius: 8px;
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .activity-log::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .activity-log::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+            border-radius: 10px;
+        }
+
+        .activity-log::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+
+        .log-entry {
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            border-left: 3px solid var(--primary-color);
+            animation: logFadeIn 0.3s ease;
+        }
+
+        .log-entry.success {
+            border-left-color: var(--secondary-color);
+            color: var(--secondary-color);
+        }
+
+        .log-entry.warning {
+            border-left-color: var(--warning-color);
+            color: var(--warning-color);
+        }
+
+        .log-entry.error {
+            border-left-color: var(--danger-color);
+            color: var(--danger-color);
+        }
+
+        @keyframes logFadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .log-timestamp {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            margin-right: 10px;
+        }
+
+        .peer-list {
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .peer-item {
+            padding: 10px;
+            background: var(--dark-bg);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            border-left: 3px solid var(--secondary-color);
+        }
+
+        .empty-state {
+            color: var(--text-secondary);
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hash-process {
+                flex-direction: column;
+            }
+
+            .arrow-animation {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔗 Naivechain - Standalone Blockchain Simulator</h1>
+            <p class="subtitle">A complete blockchain implementation running entirely in your browser - no server required!</p>
+        </header>
+
+        <!-- Node Tabs -->
+        <div class="node-tabs">
+            <div class="node-tab active" data-node-id="0">
+                <span class="node-badge"></span>
+                <span>Node 1</span>
+            </div>
+            <button class="add-node-btn" onclick="addNode()">+ Add Node</button>
+            <button class="btn-warning" onclick="connectAllNodes()">🔗 Connect All Nodes</button>
+            <button class="btn-danger" onclick="resetSimulation()">🔄 Reset Simulation</button>
+        </div>
+
+        <div class="main-content">
+            <!-- Left Panel: Controls -->
+            <aside class="sidebar">
+                <section class="card">
+                    <h2>⚙️ Controls</h2>
+                    <div class="mode-selector">
+                        <button class="mode-btn active" onclick="switchMode('manual')">Manual Mode</button>
+                        <button class="mode-btn" onclick="switchMode('auto')">Auto Mode</button>
+                    </div>
+
+                    <div id="manualControls" class="control-section">
+                        <h3>Create Block</h3>
+                        <input type="text" id="blockData" placeholder="Enter block data..." onkeypress="if(event.key==='Enter') mineBlock()" />
+                        <button class="btn-primary" onclick="mineBlock()">⛏️ Mine Block</button>
+                    </div>
+
+                    <div id="autoControls" class="control-section hidden">
+                        <h3>Auto Mining</h3>
+                        <div class="auto-settings">
+                            <label>
+                                Interval (seconds):
+                                <input type="number" id="autoInterval" value="3" min="1" max="60" />
+                            </label>
+                            <button id="autoStartBtn" class="btn-success" onclick="startAutoMining()">▶️ Start Auto Mining</button>
+                            <button id="autoStopBtn" class="btn-danger hidden" onclick="stopAutoMining()">⏹️ Stop Auto Mining</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>🌐 Connected Peers</h2>
+                    <div id="peerList" class="peer-list">
+                        <p class="empty-state">No peers connected</p>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>📊 Statistics</h2>
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <span class="stat-label">Blocks:</span>
+                            <span id="blockCount" class="stat-value">1</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Nodes:</span>
+                            <span id="nodeCount" class="stat-value">1</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Connections:</span>
+                            <span id="connectionCount" class="stat-value">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Chain Valid:</span>
+                            <span id="chainValid" class="stat-value">✓</span>
+                        </div>
+                    </div>
+                </section>
+            </aside>
+
+            <!-- Main Visualization Area -->
+            <main class="visualization-area">
+                <!-- Network Visualization -->
+                <section class="card">
+                    <h2>🌐 Network Topology</h2>
+                    <div class="network-viz">
+                        <canvas id="networkCanvas" class="network-canvas"></canvas>
+                    </div>
+                </section>
+
+                <!-- Blockchain Visualization -->
+                <section class="card">
+                    <h2>⛓️ Blockchain</h2>
+                    <div id="blockchain" class="blockchain-container">
+                        <!-- Blocks will be added here dynamically -->
+                    </div>
+                </section>
+
+                <!-- Hashing Visualization -->
+                <section class="card">
+                    <h2>🔐 Hash Computation</h2>
+                    <div class="hashing-viz">
+                        <div class="hash-process">
+                            <div class="hash-input-section">
+                                <h3>Input Data</h3>
+                                <div class="hash-inputs">
+                                    <div class="hash-field">
+                                        <label>Index:</label>
+                                        <span id="hashIndex">-</span>
+                                    </div>
+                                    <div class="hash-field">
+                                        <label>Previous Hash:</label>
+                                        <span id="hashPrevHash">-</span>
+                                    </div>
+                                    <div class="hash-field">
+                                        <label>Timestamp:</label>
+                                        <span id="hashTimestamp">-</span>
+                                    </div>
+                                    <div class="hash-field">
+                                        <label>Data:</label>
+                                        <span id="hashData">-</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hash-arrow">
+                                <div class="arrow-animation">→</div>
+                                <span class="hash-function">SHA-256</span>
+                            </div>
+                            <div class="hash-output-section">
+                                <h3>Output Hash</h3>
+                                <div class="hash-output">
+                                    <code id="outputHash">-</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Activity Log -->
+                <section class="card">
+                    <h2>📋 Activity Log</h2>
+                    <div id="activityLog" class="activity-log">
+                        <p class="log-entry">System initialized - Running in standalone mode</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // BLOCKCHAIN CORE IMPLEMENTATION
+        // ============================================
+
+        class Block {
+            constructor(index, previousHash, timestamp, data, hash) {
+                this.index = index;
+                this.previousHash = previousHash;
+                this.timestamp = timestamp;
+                this.data = data;
+                this.hash = hash;
+            }
+        }
+
+        class Blockchain {
+            constructor(nodeId) {
+                this.nodeId = nodeId;
+                this.chain = [this.createGenesisBlock()];
+            }
+
+            createGenesisBlock() {
+                return new Block(
+                    0,
+                    "0",
+                    1465154705,
+                    "Genesis Block - Naivechain Standalone",
+                    "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7"
+                );
+            }
+
+            getLatestBlock() {
+                return this.chain[this.chain.length - 1];
+            }
+
+            async calculateHash(index, previousHash, timestamp, data) {
+                const text = `${index}${previousHash}${timestamp}${data}`;
+                const msgBuffer = new TextEncoder().encode(text);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                return hashHex;
+            }
+
+            async generateNextBlock(blockData) {
+                const previousBlock = this.getLatestBlock();
+                const nextIndex = previousBlock.index + 1;
+                const nextTimestamp = Math.floor(Date.now() / 1000);
+                const nextHash = await this.calculateHash(nextIndex, previousBlock.hash, nextTimestamp, blockData);
+
+                return new Block(nextIndex, previousBlock.hash, nextTimestamp, blockData, nextHash);
+            }
+
+            async calculateHashForBlock(block) {
+                return await this.calculateHash(block.index, block.previousHash, block.timestamp, block.data);
+            }
+
+            async isValidNewBlock(newBlock, previousBlock) {
+                if (previousBlock.index + 1 !== newBlock.index) {
+                    console.log('Invalid index');
+                    return false;
+                }
+                if (previousBlock.hash !== newBlock.previousHash) {
+                    console.log('Invalid previousHash');
+                    return false;
+                }
+                const calculatedHash = await this.calculateHashForBlock(newBlock);
+                if (calculatedHash !== newBlock.hash) {
+                    console.log('Invalid hash');
+                    return false;
+                }
+                return true;
+            }
+
+            async addBlock(newBlock) {
+                if (await this.isValidNewBlock(newBlock, this.getLatestBlock())) {
+                    this.chain.push(newBlock);
+                    return true;
+                }
+                return false;
+            }
+
+            async isValidChain(blockchain) {
+                if (JSON.stringify(blockchain[0]) !== JSON.stringify(this.createGenesisBlock())) {
+                    return false;
+                }
+                for (let i = 1; i < blockchain.length; i++) {
+                    if (!await this.isValidNewBlock(blockchain[i], blockchain[i - 1])) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            async replaceChain(newChain) {
+                if (await this.isValidChain(newChain) && newChain.length > this.chain.length) {
+                    this.chain = [...newChain];
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        // ============================================
+        // NETWORK SIMULATION
+        // ============================================
+
+        class BlockchainNode {
+            constructor(id) {
+                this.id = id;
+                this.blockchain = new Blockchain(id);
+                this.peers = [];
+            }
+
+            connectToPeer(peerId) {
+                if (!this.peers.includes(peerId) && peerId !== this.id) {
+                    this.peers.push(peerId);
+                }
+            }
+
+            disconnectPeer(peerId) {
+                this.peers = this.peers.filter(id => id !== peerId);
+            }
+
+            async broadcastBlock(block) {
+                for (const peerId of this.peers) {
+                    const peerNode = nodes.find(n => n.id === peerId);
+                    if (peerNode) {
+                        await peerNode.receiveBlock(block);
+                    }
+                }
+            }
+
+            async receiveBlock(block) {
+                const added = await this.blockchain.addBlock(block);
+                if (added) {
+                    addLog(`Node ${this.id + 1} received block #${block.index}`, 'success');
+                }
+            }
+
+            async syncWithPeer(peerId) {
+                const peerNode = nodes.find(n => n.id === peerId);
+                if (peerNode && peerNode.blockchain.chain.length > this.blockchain.chain.length) {
+                    const replaced = await this.blockchain.replaceChain(peerNode.blockchain.chain);
+                    if (replaced) {
+                        addLog(`Node ${this.id + 1} synchronized with Node ${peerId + 1}`, 'success');
+                    }
+                }
+            }
+        }
+
+        // ============================================
+        // APPLICATION STATE
+        // ============================================
+
+        let nodes = [new BlockchainNode(0)];
+        let currentNodeId = 0;
+        let autoMiningInterval = null;
+        let autoMiningCounter = 1;
+
+        // ============================================
+        // UI FUNCTIONS
+        // ============================================
+
+        function getCurrentNode() {
+            return nodes.find(n => n.id === currentNodeId);
+        }
+
+        function switchNode(nodeId) {
+            currentNodeId = nodeId;
+
+            // Update tab styles
+            document.querySelectorAll('.node-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`[data-node-id="${nodeId}"]`).classList.add('active');
+
+            updateUI();
+            addLog(`Switched to Node ${nodeId + 1}`);
+        }
+
+        function addNode() {
+            const newNodeId = nodes.length;
+            const newNode = new BlockchainNode(newNodeId);
+            nodes.push(newNode);
+
+            // Add tab
+            const tabsContainer = document.querySelector('.node-tabs');
+            const newTab = document.createElement('div');
+            newTab.className = 'node-tab';
+            newTab.setAttribute('data-node-id', newNodeId);
+            newTab.innerHTML = `
+                <span class="node-badge"></span>
+                <span>Node ${newNodeId + 1}</span>
+            `;
+            newTab.onclick = () => switchNode(newNodeId);
+            tabsContainer.insertBefore(newTab, tabsContainer.children[newNodeId]);
+
+            switchNode(newNodeId);
+            addLog(`Node ${newNodeId + 1} created`, 'success');
+            updateStatistics();
+            drawNetwork();
+        }
+
+        function connectAllNodes() {
+            // Connect all nodes in a mesh network
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = 0; j < nodes.length; j++) {
+                    if (i !== j) {
+                        nodes[i].connectToPeer(j);
+                    }
+                }
+            }
+            addLog(`All ${nodes.length} nodes connected in mesh network`, 'success');
+            updateUI();
+        }
+
+        async function resetSimulation() {
+            if (!confirm('Reset all nodes and start fresh?')) return;
+
+            // Stop auto mining
+            if (autoMiningInterval) {
+                stopAutoMining();
+            }
+
+            // Reset to single node
+            nodes = [new BlockchainNode(0)];
+            currentNodeId = 0;
+
+            // Reset tabs
+            const tabsContainer = document.querySelector('.node-tabs');
+            const tabs = tabsContainer.querySelectorAll('.node-tab');
+            tabs.forEach((tab, index) => {
+                if (index > 0) tab.remove();
+            });
+            tabs[0].classList.add('active');
+
+            // Clear logs
+            document.getElementById('activityLog').innerHTML = '<p class="log-entry">Simulation reset</p>';
+
+            updateUI();
+            addLog('Simulation reset to initial state', 'warning');
+        }
+
+        function switchMode(mode) {
+            const manualBtn = document.querySelector('.mode-btn:first-child');
+            const autoBtn = document.querySelector('.mode-btn:last-child');
+            const manualControls = document.getElementById('manualControls');
+            const autoControls = document.getElementById('autoControls');
+
+            if (mode === 'manual') {
+                manualBtn.classList.add('active');
+                autoBtn.classList.remove('active');
+                manualControls.classList.remove('hidden');
+                autoControls.classList.add('hidden');
+                if (autoMiningInterval) stopAutoMining();
+                addLog('Switched to Manual Mode', 'success');
+            } else {
+                autoBtn.classList.add('active');
+                manualBtn.classList.remove('active');
+                autoControls.classList.remove('hidden');
+                manualControls.classList.add('hidden');
+                addLog('Switched to Auto Mode', 'success');
+            }
+        }
+
+        async function mineBlock() {
+            const dataInput = document.getElementById('blockData');
+            const data = dataInput.value.trim();
+
+            if (!data) {
+                addLog('Please enter block data', 'warning');
+                return;
+            }
+
+            const node = getCurrentNode();
+            const latestBlock = node.blockchain.getLatestBlock();
+
+            // Show hashing visualization
+            visualizeHashing(latestBlock.index + 1, latestBlock.hash, Math.floor(Date.now() / 1000), data);
+
+            // Generate and add block
+            const newBlock = await node.blockchain.generateNextBlock(data);
+            await node.blockchain.addBlock(newBlock);
+
+            // Broadcast to peers
+            await node.broadcastBlock(newBlock);
+
+            addLog(`Node ${currentNodeId + 1} mined block #${newBlock.index}: "${data}"`, 'success');
+            dataInput.value = '';
+
+            updateUI();
+        }
+
+        async function startAutoMining() {
+            const interval = parseInt(document.getElementById('autoInterval').value) * 1000;
+
+            if (autoMiningInterval) return;
+
+            document.getElementById('autoStartBtn').classList.add('hidden');
+            document.getElementById('autoStopBtn').classList.remove('hidden');
+
+            autoMiningInterval = setInterval(async () => {
+                const node = getCurrentNode();
+                const data = `Auto-block #${autoMiningCounter} at ${new Date().toLocaleTimeString()}`;
+
+                const latestBlock = node.blockchain.getLatestBlock();
+                visualizeHashing(latestBlock.index + 1, latestBlock.hash, Math.floor(Date.now() / 1000), data);
+
+                const newBlock = await node.blockchain.generateNextBlock(data);
+                await node.blockchain.addBlock(newBlock);
+                await node.broadcastBlock(newBlock);
+
+                addLog(`Auto-mined block #${newBlock.index} on Node ${currentNodeId + 1}`, 'success');
+                autoMiningCounter++;
+
+                updateUI();
+            }, interval);
+
+            addLog(`Auto mining started (${interval / 1000}s interval)`, 'success');
+        }
+
+        function stopAutoMining() {
+            if (!autoMiningInterval) return;
+
+            clearInterval(autoMiningInterval);
+            autoMiningInterval = null;
+
+            document.getElementById('autoStopBtn').classList.add('hidden');
+            document.getElementById('autoStartBtn').classList.remove('hidden');
+
+            addLog('Auto mining stopped', 'warning');
+        }
+
+        // ============================================
+        // VISUALIZATION FUNCTIONS
+        // ============================================
+
+        function updateUI() {
+            updateBlockchainVisualization();
+            updatePeerList();
+            updateStatistics();
+            drawNetwork();
+        }
+
+        function updateBlockchainVisualization() {
+            const container = document.getElementById('blockchain');
+            const node = getCurrentNode();
+
+            container.innerHTML = '';
+
+            node.blockchain.chain.forEach((block, index) => {
+                const blockEl = createBlockElement(block, index === 0);
+                container.appendChild(blockEl);
+            });
+
+            container.scrollLeft = container.scrollWidth;
+        }
+
+        function createBlockElement(block, isGenesis = false) {
+            const blockEl = document.createElement('div');
+            blockEl.className = `block ${isGenesis ? 'genesis' : ''}`;
+
+            const date = new Date(block.timestamp * 1000);
+            const timeStr = date.toLocaleTimeString();
+
+            blockEl.innerHTML = `
+                <div class="block-header">
+                    <div class="block-index">#${block.index}</div>
+                    <div class="block-time">${timeStr}</div>
+                </div>
+                <div class="block-field">
+                    <div class="block-label">Data</div>
+                    <div class="block-value">${truncate(block.data, 30)}</div>
+                </div>
+                <div class="block-field">
+                    <div class="block-label">Hash</div>
+                    <div class="block-value block-hash">${truncate(block.hash, 16)}</div>
+                </div>
+                <div class="block-field">
+                    <div class="block-label">Previous Hash</div>
+                    <div class="block-value block-hash">${truncate(block.previousHash, 16)}</div>
+                </div>
+            `;
+
+            return blockEl;
+        }
+
+        function updatePeerList() {
+            const peerList = document.getElementById('peerList');
+            const node = getCurrentNode();
+
+            if (node.peers.length === 0) {
+                peerList.innerHTML = '<p class="empty-state">No peers connected</p>';
+            } else {
+                peerList.innerHTML = '';
+                node.peers.forEach(peerId => {
+                    const peerEl = document.createElement('div');
+                    peerEl.className = 'peer-item';
+                    peerEl.textContent = `Connected to Node ${peerId + 1}`;
+                    peerList.appendChild(peerEl);
+                });
+            }
+        }
+
+        function updateStatistics() {
+            const node = getCurrentNode();
+            document.getElementById('blockCount').textContent = node.blockchain.chain.length;
+            document.getElementById('nodeCount').textContent = nodes.length;
+
+            // Count total unique connections
+            const totalConnections = nodes.reduce((sum, n) => sum + n.peers.length, 0) / 2;
+            document.getElementById('connectionCount').textContent = totalConnections;
+
+            document.getElementById('chainValid').textContent = '✓';
+            document.getElementById('chainValid').style.color = '#2ecc71';
+        }
+
+        function visualizeHashing(index, previousHash, timestamp, data) {
+            document.getElementById('hashIndex').textContent = index;
+            document.getElementById('hashPrevHash').textContent = truncate(previousHash, 20);
+            document.getElementById('hashTimestamp').textContent = timestamp;
+            document.getElementById('hashData').textContent = truncate(data, 30);
+
+            const outputEl = document.getElementById('outputHash');
+            outputEl.textContent = 'Computing...';
+
+            setTimeout(() => {
+                const node = getCurrentNode();
+                const latestBlock = node.blockchain.getLatestBlock();
+                outputEl.textContent = latestBlock.hash;
+            }, 500);
+        }
+
+        function drawNetwork() {
+            const canvas = document.getElementById('networkCanvas');
+            const ctx = canvas.getContext('2d');
+
+            // Set canvas size
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = Math.min(canvas.width, canvas.height) / 3;
+
+            // Calculate positions for all nodes
+            const positions = nodes.map((node, index) => {
+                if (nodes.length === 1) {
+                    return { x: centerX, y: centerY };
+                }
+                const angle = (index * 2 * Math.PI) / nodes.length - Math.PI / 2;
+                return {
+                    x: centerX + radius * Math.cos(angle),
+                    y: centerY + radius * Math.sin(angle)
+                };
+            });
+
+            // Draw connections
+            nodes.forEach((node, i) => {
+                node.peers.forEach(peerId => {
+                    if (peerId > i) { // Only draw each connection once
+                        const fromPos = positions[i];
+                        const toPos = positions[peerId];
+
+                        ctx.beginPath();
+                        ctx.moveTo(fromPos.x, fromPos.y);
+                        ctx.lineTo(toPos.x, toPos.y);
+                        ctx.strokeStyle = '#3498db';
+                        ctx.lineWidth = 2;
+                        ctx.setLineDash([5, 5]);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                    }
+                });
+            });
+
+            // Draw nodes
+            positions.forEach((pos, index) => {
+                const isCurrentNode = index === currentNodeId;
+
+                // Draw circle
+                ctx.beginPath();
+                ctx.arc(pos.x, pos.y, isCurrentNode ? 35 : 30, 0, 2 * Math.PI);
+                ctx.fillStyle = isCurrentNode ? '#3498db' : '#2ecc71';
+                ctx.fill();
+                ctx.strokeStyle = isCurrentNode ? '#00d9ff' : '#27ae60';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                // Draw label
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 14px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(`N${index + 1}`, pos.x, pos.y);
+
+                // Draw node number below
+                ctx.font = '12px Arial';
+                ctx.fillStyle = '#a8b2d1';
+                ctx.fillText(`${nodes[index].blockchain.chain.length} blocks`, pos.x, pos.y + 50);
+            });
+        }
+
+        function addLog(message, type = '') {
+            const log = document.getElementById('activityLog');
+            const timestamp = new Date().toLocaleTimeString();
+
+            const entry = document.createElement('p');
+            entry.className = `log-entry ${type}`;
+            entry.innerHTML = `<span class="log-timestamp">[${timestamp}]</span> ${message}`;
+
+            log.insertBefore(entry, log.firstChild);
+
+            while (log.children.length > 50) {
+                log.removeChild(log.lastChild);
+            }
+        }
+
+        function truncate(str, maxLength) {
+            if (str.length <= maxLength) return str;
+            return str.substring(0, maxLength) + '...';
+        }
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+
+        window.addEventListener('load', () => {
+            updateUI();
+            addLog('Standalone blockchain simulator ready!', 'success');
+            addLog('No server needed - everything runs in your browser', 'success');
+
+            // Redraw network on window resize
+            window.addEventListener('resize', drawNetwork);
+        });
+
+    </script>
+</body>
+</html>

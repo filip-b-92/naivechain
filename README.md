@@ -15,6 +15,20 @@ Check also [this blog post](https://medium.com/@lhartikk/a-blockchain-in-200-lin
 * Data is not persisted in nodes
 * No proof-of-work or proof-of-stake: a block can be added to the blockchain without competition
 
+### Visualization Features 🎨
+The project now includes a comprehensive visualization dashboard that makes learning blockchain concepts intuitive:
+* **Interactive Dashboard** - Modern web UI with real-time updates
+* **Blockchain Visualization** - See blocks as they're mined with animations
+* **Peer Network Graph** - Visual representation of P2P connections
+* **Hash Computation Display** - Watch SHA-256 hashing in action
+* **Dual Operating Modes**:
+  - **Manual Mode** - Mine blocks with custom data
+  - **Auto Mode** - Automatic block generation at configurable intervals
+* **Activity Logging** - Track all blockchain events
+* **Multi-Node Support** - Run and visualize multiple nodes simultaneously
+
+📚 See [VISUALIZATION.md](VISUALIZATION.md) for detailed documentation.
+
 
 ![alt tag](naivechain_blockchain.png)
 
@@ -24,7 +38,45 @@ Check also [this blog post](https://medium.com/@lhartikk/a-blockchain-in-200-lin
 ### Naivecoin
 For a more extensive tutorial about blockchains, you can check the project [Naivecoin](https://lhartikk.github.io/). It is based on Naivechain and implements for instance Proof-of-work, transactions and wallets.
 
-### Quick start
+### 🚀 Standalone Browser Version (No Installation Required!)
+Want to try Naivechain with **ZERO setup**? We've got you covered!
+
+**Simply open `standalone.html` in your browser** - no Node.js, no npm, no server needed!
+
+Features:
+- ✅ Complete blockchain implementation in pure JavaScript
+- ✅ Multi-node simulation in a single page
+- ✅ All visualization features included
+- ✅ SHA-256 hashing using native Web Crypto API
+- ✅ Works offline - perfect for classrooms and presentations
+- ✅ Just 43KB single file
+
+[📖 Read the full standalone documentation](STANDALONE.md)
+
+**Quick try:**
+1. Download `standalone.html`
+2. Open in any modern browser
+3. Start mining blocks immediately!
+
+---
+
+### Quick start with Visualization Dashboard 🎨
+The easiest way to explore Naivechain is through the interactive visualization dashboard:
+```
+npm install
+HTTP_PORT=3001 P2P_PORT=6001 npm start
+```
+Then open your browser to **http://localhost:3001** to access the visualization dashboard!
+
+For multi-node setup (in separate terminals):
+```
+HTTP_PORT=3001 P2P_PORT=6001 npm start
+HTTP_PORT=3002 P2P_PORT=6002 PEERS=ws://localhost:6001 npm start
+HTTP_PORT=3003 P2P_PORT=6003 PEERS=ws://localhost:6001 npm start
+```
+Access dashboards at http://localhost:3001, http://localhost:3002, and http://localhost:3003
+
+### Quick start (CLI only)
 (set up two connected nodes and mine 1 block)
 ```
 npm install
