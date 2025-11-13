@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naivechain Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔗 Naivechain Visualizer</h1>
+            <div class="node-info">
+                <span class="node-label">Node:</span>
+                <span id="nodePort" class="node-port">Loading...</span>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Left Panel: Controls and Info -->
+            <aside class="sidebar">
+                <section class="card">
+                    <h2>⚙️ Controls</h2>
+                    <div class="mode-selector">
+                        <button id="modeManual" class="mode-btn active">Manual Mode</button>
+                        <button id="modeAuto" class="mode-btn">Auto Mode</button>
+                    </div>
+
+                    <div id="manualControls" class="control-section">
+                        <h3>Create Block</h3>
+                        <input type="text" id="blockData" placeholder="Enter block data..." />
+                        <button id="mineBtn" class="btn-primary">⛏️ Mine Block</button>
+                    </div>
+
+                    <div id="autoControls" class="control-section hidden">
+                        <h3>Auto Mining</h3>
+                        <div class="auto-settings">
+                            <label>
+                                Interval (seconds):
+                                <input type="number" id="autoInterval" value="5" min="1" max="60" />
+                            </label>
+                            <button id="autoStartBtn" class="btn-success">▶️ Start Auto Mining</button>
+                            <button id="autoStopBtn" class="btn-danger hidden">⏹️ Stop Auto Mining</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card">
+                    <h2>🌐 Peer Management</h2>
+                    <div class="peer-controls">
+                        <input type="text" id="peerAddress" placeholder="ws://localhost:6001" />
+                        <button id="addPeerBtn" class="btn-secondary">Add Peer</button>
+                    </div>
+                    <div id="peerList" class="peer-list">
+                        <p class="empty-state">No peers connected</p>
+                    </div>
+                </section>
+
+                <section class="card stats">
+                    <h2>📊 Statistics</h2>
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <span class="stat-label">Blocks:</span>
+                            <span id="blockCount" class="stat-value">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Peers:</span>
+                            <span id="peerCount" class="stat-value">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Chain Valid:</span>
+                            <span id="chainValid" class="stat-value">✓</span>
+                        </div>
+                    </div>
+                </section>
+            </aside>
+
+            <!-- Main Visualization Area -->
+            <main class="visualization-area">
+                <!-- Peer Network Visualization -->
+                <section class="card viz-card">
+                    <h2>🌐 Peer Network</h2>
+                    <div id="peerNetwork" class="peer-network">
+                        <svg id="networkSvg" width="100%" height="300"></svg>
+                    </div>
+                </section>
+
+                <!-- Blockchain Visualization -->
+                <section class="card viz-card">
+                    <h2>⛓️ Blockchain</h2>
+                    <div id="blockchain" class="blockchain-container">
+                        <!-- Blocks will be added here dynamically -->
+                    </div>
+                </section>
+
+                <!-- Hashing Visualization -->
+                <section class="card viz-card">
+                    <h2>🔐 Hash Computation</h2>
+                    <div id="hashingViz" class="hashing-viz">
+                        <div class="hash-process">
+                            <div class="hash-input-section">
+                                <h4>Input Data</h4>
+                                <div id="hashInputs" class="hash-inputs">
+                                    <div class="hash-field">
+                                        <label>Index:</label>
+                                        <span id="hashIndex">-</span>
+                                    </div>
+                                    <div class="hash-field">
+                                        <label>Previous Hash:</label>
+                                        <span id="hashPrevHash">-</span>
+                                    </div>
+                                    <div class="hash-field">
+                                        <label>Timestamp:</label>
+                                        <span id="hashTimestamp">-</span>
+                                    </div>
+                                    <div class="hash-field">
+                                        <label>Data:</label>
+                                        <span id="hashData">-</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hash-arrow">
+                                <div class="arrow-animation">→</div>
+                                <span class="hash-function">SHA-256</span>
+                            </div>
+                            <div class="hash-output-section">
+                                <h4>Output Hash</h4>
+                                <div id="hashOutput" class="hash-output">
+                                    <code id="outputHash">-</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Activity Log -->
+                <section class="card viz-card">
+                    <h2>📋 Activity Log</h2>
+                    <div id="activityLog" class="activity-log">
+                        <p class="log-entry">System initialized</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

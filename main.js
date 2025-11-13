@@ -35,6 +35,14 @@ var initHttpServer = () => {
     var app = express();
     app.use(bodyParser.json());
 
+    // Serve static files for visualization dashboard
+    app.use(express.static('public'));
+
+    // Root redirects to dashboard
+    app.get('/', (req, res) => {
+        res.redirect('/index.html');
+    });
+
     app.get('/blocks', (req, res) => res.send(JSON.stringify(blockchain)));
     app.post('/mineBlock', (req, res) => {
         var newBlock = generateNextBlock(req.body.data);
